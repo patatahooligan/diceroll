@@ -1,0 +1,22 @@
+.TH diceroll 1
+.SH NAME
+diceroll \- Small cli dicerolling program written in rust
+.SH SYNOPSIS
+diceroll ROLL [ROLL [...]]
+.SH DESCRIPTION
+Accepts one or more d&d-style dice rolls and outputs a randomly generated
+result of the specified dice & modifiers. Each roll should have at least one
+die and any number of modifiers.
+
+Dice are written as NdX, where N is the number of dice and X is the number of
+faces. Modifiers are plain integers. Combine multiple dice and modifiers in a
+single roll with '+' signs.
+
+For example,
+
+    $ diceroll 1d20+2d8+3 1d8+6
+
+Could output
+
+    18 (d20) + 5 (d8) + 5 (d8) + 3 = 31
+    6 (d8) + 6 = 12

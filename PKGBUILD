@@ -33,5 +33,8 @@ build() {
 
 package() {
     cd "$srcdir/${_pkgname_base}"
+    gzip -k man/diceroll.1
+
     install -Dm 755 target/release/diceroll "$pkgdir/usr/bin/diceroll"
+    install -Dm 755 man/diceroll.1.gz "$pkgdir/usr/share/man/man1/diceroll.1.gz"
 }
