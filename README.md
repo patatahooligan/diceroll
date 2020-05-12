@@ -40,3 +40,13 @@ or for the optimized release build
 * Cleaner error messages. Now it just outputs the rust assertion failures.
 * man page & --help option
 * Maybe some indication of lowest/highest rolls, eg color-coding. This is useful for automatic failures & criticals.
+* Add advantage/disadvantage
+* Some form of preconfigured rolls. Could be as simple as a configuration file with named rolls
+
+      attack: 1d20+7
+
+  useable as
+
+      diceroll attack
+
+  Or maybe a rudimentary character sheet from which the rolls can be automatically generated.
