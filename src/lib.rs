@@ -8,11 +8,11 @@ pub enum Sign {
 
 impl Sign {
     fn from_char(c: char) -> Result<Sign, &'static str> {
-       match c {
-           '+' => Ok(Sign::Plus),
-           '-' => Ok(Sign::Minus),
-           _ => Err("Sign character should be '+' or '-'"),
-       }
+        match c {
+            '+' => Ok(Sign::Plus),
+            '-' => Ok(Sign::Minus),
+            _ => Err("Sign character should be '+' or '-'"),
+        }
     }
 
     pub fn to_char(self) -> char {
@@ -67,13 +67,15 @@ pub fn parse_roll_string(mut roll_string: String) -> DiceRoll {
     // then parse the substrings.
     let mut roll_substrings = Vec::new();
     while let Some(next_sign_pos) = roll_string.rfind(&['+', '-'][..]) {
-        roll_substrings.push(
-            roll_string.split_off(next_sign_pos));
+        roll_substrings.push(roll_string.split_off(next_sign_pos));
     }
 
     roll_substrings.reverse();
 
-    let mut die_roll = DiceRoll {dice: Vec::new(), modifier: 0};
+    let mut die_roll = DiceRoll {
+        dice: Vec::new(),
+        modifier: 0,
+    };
     for substring in roll_substrings {
         // Rolls are '{x}d{y}', modifiers are just '{x}'
 
@@ -88,11 +90,7 @@ pub fn parse_roll_string(mut roll_string: String) -> DiceRoll {
                 let max = elements[1].parse::<i32>().unwrap();
 
                 for _i in 0..amount {
-                    die_roll.dice.push(
-                        SingleDieRoll{
-                            max,
-                            roll: 0,
-                            sign});
+                    die_roll.dice.push(SingleDieRoll { max, roll: 0, sign });
                 }
             }
             false => {
