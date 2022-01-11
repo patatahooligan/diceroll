@@ -23,9 +23,10 @@ fn main() {
 
     for arg in env::args().skip(1) {
         let mut dice_roll = match parse_roll_string(arg.clone()) {
-            Some(roll) => roll,
-            None => {
+            Ok(roll) => roll,
+            Err(error_string) => {
                 eprintln!("Could not parse \"{}\" as a dice roll", arg);
+                eprintln!("{}", error_string);
                 return;
             }
         };

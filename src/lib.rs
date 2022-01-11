@@ -53,7 +53,7 @@ pub fn roll_dice(dice_roll: &mut DiceRoll) {
     }
 }
 
-pub fn parse_roll_string(mut roll_string: String) -> Option<DiceRoll> {
+pub fn parse_roll_string(mut roll_string: String) -> Result<DiceRoll, String> {
     // Expect the notation "1d20 + 2d8 + 3, ..."
     remove_whitespace(&mut roll_string);
 
@@ -81,13 +81,24 @@ pub fn parse_roll_string(mut roll_string: String) -> Option<DiceRoll> {
 
         match substring.contains('d') {
             true => {
+                // This one uses unwrap because it shouldn't be possible to end
+                // up here with something that doesn't start with a valid sign.
+                // Therefore, if this fails, the program is invalid and there is
+                // little use for a pretty error message.
                 let sign =
-                    Sign::from_char(substring.as_bytes()[0] as char).ok()?;
+                    Sign::from_char(substring.as_bytes()[0] as char).unwrap();
                 let substring = &substring[1..];
                 let elements: Vec<&str> = substring.split('d').collect();
                 assert_eq!(elements.len(), 2);
-                let amount = elements[0].parse::<i32>().ok()?;
-                let max = elements[1].parse::<i32>().ok()?;
+                let amount = match elements[0].parse::<i32>() {
+                    Ok(x) => x,
+                    Err(err_str) => return Err(err_str.to_string()),
+                };
+
+                let max = match elements[1].parse::<i32>() {
+                    Ok(x) => x,
+                    Err(err_str) => return Err(err_str.to_string()),
+                };
 
                 for _i in 0..amount {
                     die_roll.dice.push(SingleDieRoll { max, roll: 0, sign });
@@ -99,7 +110,7 @@ pub fn parse_roll_string(mut roll_string: String) -> Option<DiceRoll> {
         }
     }
 
-    Some(die_roll)
+    Ok(die_roll)
 }
 
 // Helper function
