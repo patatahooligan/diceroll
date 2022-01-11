@@ -22,7 +22,13 @@ fn main() {
     }
 
     for arg in env::args().skip(1) {
-        let mut dice_roll = parse_roll_string(arg);
+        let mut dice_roll = match parse_roll_string(arg.clone()) {
+            Some(roll) => roll,
+            None => {
+                eprintln!("Could not parse \"{}\" as a dice roll", arg);
+                return;
+            }
+        };
         assert!(!dice_roll.dice.is_empty());
 
         roll_dice(&mut dice_roll);

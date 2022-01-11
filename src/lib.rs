@@ -53,7 +53,7 @@ pub fn roll_dice(dice_roll: &mut DiceRoll) {
     }
 }
 
-pub fn parse_roll_string(mut roll_string: String) -> DiceRoll {
+pub fn parse_roll_string(mut roll_string: String) -> Option<DiceRoll> {
     // Expect the notation "1d20 + 2d8 + 3, ..."
     remove_whitespace(&mut roll_string);
 
@@ -82,12 +82,12 @@ pub fn parse_roll_string(mut roll_string: String) -> DiceRoll {
         match substring.contains('d') {
             true => {
                 let sign =
-                    Sign::from_char(substring.as_bytes()[0] as char).unwrap();
+                    Sign::from_char(substring.as_bytes()[0] as char).ok()?;
                 let substring = &substring[1..];
                 let elements: Vec<&str> = substring.split('d').collect();
                 assert_eq!(elements.len(), 2);
-                let amount = elements[0].parse::<i32>().unwrap();
-                let max = elements[1].parse::<i32>().unwrap();
+                let amount = elements[0].parse::<i32>().ok()?;
+                let max = elements[1].parse::<i32>().ok()?;
 
                 for _i in 0..amount {
                     die_roll.dice.push(SingleDieRoll { max, roll: 0, sign });
@@ -99,7 +99,7 @@ pub fn parse_roll_string(mut roll_string: String) -> DiceRoll {
         }
     }
 
-    die_roll
+    Some(die_roll)
 }
 
 // Helper function
