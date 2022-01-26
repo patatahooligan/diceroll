@@ -105,7 +105,10 @@ pub fn parse_roll_string(mut roll_string: String) -> Result<DiceRoll, String> {
                 }
             }
             false => {
-                die_roll.modifier += substring.parse::<i32>().unwrap();
+                match substring.parse::<i32>() {
+                    Ok(x) => die_roll.modifier += x,
+                    Err(err_str) => return Err(err_str.to_string()),
+                }
             }
         }
     }
