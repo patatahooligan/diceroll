@@ -16,7 +16,7 @@ fn print_help() {
 }
 
 fn main() {
-    if env::args().skip(1).any(|x| x == "-h") {
+    if env::args().skip(1).any(|x| x == "-h" || x == "--help") {
         print_help();
         return;
     }
