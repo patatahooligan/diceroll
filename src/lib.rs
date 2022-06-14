@@ -104,12 +104,10 @@ pub fn parse_roll_string(mut roll_string: String) -> Result<DiceRoll, String> {
                     die_roll.dice.push(SingleDieRoll { max, roll: 0, sign });
                 }
             }
-            false => {
-                match substring.parse::<i32>() {
-                    Ok(x) => die_roll.modifier += x,
-                    Err(err_str) => return Err(err_str.to_string()),
-                }
-            }
+            false => match substring.parse::<i32>() {
+                Ok(x) => die_roll.modifier += x,
+                Err(err_str) => return Err(err_str.to_string()),
+            },
         }
     }
 
