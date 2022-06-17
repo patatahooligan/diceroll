@@ -1,0 +1,3 @@
+comment_width = 72
+control_brace_style = "ClosingNextLine"
+max_width = 80
