@@ -2,6 +2,8 @@ use std::env;
 
 use diceroll::*;
 
+/// Print a help message appropriate appropriate for when the app is
+/// run with "-h" or "--help".
 fn print_help() {
     print!("Usage: {} ", env::args().next().unwrap_or("".to_string()));
     println!("DICEROLL [DICEROLL [...]]");
@@ -12,7 +14,9 @@ fn print_help() {
     println!();
     println!("  3d20: the sum of 3 d20 rolls");
     println!("  1d20+1d4: the sum of a d20 and a d4");
-    println!("  2d8-1: the sum of 2 d8 rolls with a -1 modifier")
+    println!("  2d8-1: the sum of 2 d8 rolls with a -1 modifier");
+    println!();
+    println!("See also `man diceroll`.");
 }
 
 fn main() {
