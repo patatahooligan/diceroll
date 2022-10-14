@@ -36,7 +36,7 @@ pub struct SingleDieRoll {
     pub sign: Sign,
 }
 
-pub struct DiceRoll {
+pub struct CompositeRoll {
     pub dice: Vec<SingleDieRoll>,
     pub modifier: i32,
 }
@@ -47,13 +47,15 @@ fn roll_single_die(max: i32) -> i32 {
     thread_rng().gen_range(1, max + 1)
 }
 
-pub fn roll_dice(dice_roll: &mut DiceRoll) {
+pub fn roll_dice(dice_roll: &mut CompositeRoll) {
     for die in &mut dice_roll.dice {
         die.roll = roll_single_die(die.max);
     }
 }
 
-pub fn parse_roll_string(mut roll_string: String) -> Result<DiceRoll, String> {
+pub fn parse_roll_string(
+    mut roll_string: String,
+) -> Result<CompositeRoll, String> {
     // Expect the notation "1d20 + 2d8 + 3, ..."
     remove_whitespace(&mut roll_string);
 
@@ -72,7 +74,7 @@ pub fn parse_roll_string(mut roll_string: String) -> Result<DiceRoll, String> {
 
     roll_substrings.reverse();
 
-    let mut die_roll = DiceRoll {
+    let mut die_roll = CompositeRoll {
         dice: Vec::new(),
         modifier: 0,
     };
