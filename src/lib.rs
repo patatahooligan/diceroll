@@ -100,12 +100,15 @@ pub fn parse_roll_string(
 
     // Do the parsing in two steps, first split on '+'/'-' (keeping the sign),
     // then parse the substrings.
-    let mut roll_substrings = Vec::new();
-    while let Some(next_sign_pos) = roll_string.rfind(&['+', '-'][..]) {
-        roll_substrings.push(roll_string.split_off(next_sign_pos));
-    }
+    let roll_substrings = {
+        let mut roll_substrings = Vec::new();
+        while let Some(next_sign_pos) = roll_string.rfind(&['+', '-'][..]) {
+            roll_substrings.push(roll_string.split_off(next_sign_pos));
+        }
 
-    roll_substrings.reverse();
+        roll_substrings.reverse();
+        roll_substrings
+    };
 
     let mut die_roll = CompositeRoll {
         dice: Vec::new(),
